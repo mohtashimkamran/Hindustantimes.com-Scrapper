@@ -34,7 +34,15 @@ for i in range (len(x)):
     responses= requests.get(new_url)
 
     soups = bs4.BeautifulSoup(responses.content,'html.parser')
-
+    #for getting the haeder of each news 
+    title = soups .find('div',{'class':'ht-breadcrumb-new'})
+    title_info = title.find_all('span')
+    
+    for j in range (len(title_info)):
+        p = title_info[j].text
+        y.append(p)
+        
+    #for getting news details
     divi = soups.find('div',{'class':'storyDetail'})
     info = divi.find_all('p')
 
@@ -44,8 +52,8 @@ for i in range (len(x)):
         q=info[i].text
         y.append(q)
 
-print(y)
+# print(y)
 filepath = "news_{}.txt".format(n)
 with open(filepath, 'w' , encoding="utf8") as f:
     for item in y:
-        f.write("{}\n".format(item))
+        f.write("{}\n\n".format(item))
